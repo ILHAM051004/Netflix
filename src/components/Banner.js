@@ -1,100 +1,278 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Banner = ({ memories = [] }) => {
+  const [bannerMemories, setBannerMemories] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [startX, setStartX] = useState(null);
 
-  if (!memories.length) {
+  /*
+   * Cek ukuran asli setiap foto.
+   *
+   * Portrait:
+   * height > width
+   *
+   * Landscape:
+   * width > height
+   *
+   * Square:
+   * width === height
+   *
+   * Hanya portrait yang masuk banner.
+   */
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkImages = async () => {
+      const results = await Promise.all(
+        memories.map(
+          (memory) =>
+            new Promise((resolve) => {
+              const img = new Image();
+
+              img.onload = () => {
+                resolve({
+                  memory,
+                  isPortrait: img.naturalHeight > img.naturalWidth,
+                });
+              };
+
+              img.onerror = () => {
+                resolve({
+                  memory,
+                  isPortrait: false,
+                });
+              };
+
+              img.src = memory.image;
+            }),
+        ),
+      );
+
+      if (!isMounted) return;
+
+      const portraitMemories = results
+        .filter((item) => item.isPortrait)
+        .map((item) => item.memory);
+
+      setBannerMemories(portraitMemories);
+    };
+
+    checkImages();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [memories]);
+
+  /*
+   * Kalau jumlah banner berubah dan index
+   * sudah tidak valid, kembali ke banner pertama.
+   */
+  useEffect(() => {
+    if (bannerMemories.length > 0 && currentIndex >= bannerMemories.length) {
+      setCurrentIndex(0);
+    }
+  }, [bannerMemories, currentIndex]);
+
+  /*
+   * Tidak ada foto portrait.
+   */
+  if (!bannerMemories.length) {
     return null;
   }
 
-  const memory = memories[currentIndex];
+  const currentMemory = bannerMemories[currentIndex];
 
-  const nextSlide = () => {
-    setCurrentIndex((index) => (index === memories.length - 1 ? 0 : index + 1));
+  /*
+   * Banner berikutnya.
+   */
+  const nextBanner = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % bannerMemories.length);
   };
 
-  const prevSlide = () => {
-    setCurrentIndex((index) => (index === 0 ? memories.length - 1 : index - 1));
+  /*
+   * Banner sebelumnya.
+   */
+  const prevBanner = () => {
+    setCurrentIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + bannerMemories.length) % bannerMemories.length,
+    );
   };
 
-  const handlePointerDown = (event) => {
-    setStartX(event.clientX);
+  /*
+   * Mulai swipe.
+   */
+  const handleTouchStart = (event) => {
+    if (event.touches.length !== 1) return;
+
+    setStartX(event.touches[0].clientX);
   };
 
-  const handlePointerUp = (event) => {
+  /*
+   * Selesai swipe.
+   */
+  const handleTouchEnd = (event) => {
     if (startX === null) return;
 
-    const distance = event.clientX - startX;
+    const endX = event.changedTouches[0].clientX;
 
+    const distance = endX - startX;
+
+    /*
+     * Minimal geser 50px agar dianggap swipe.
+     */
     if (Math.abs(distance) > 50) {
       if (distance < 0) {
-        nextSlide();
+        nextBanner();
       } else {
-        prevSlide();
+        prevBanner();
       }
     }
 
     setStartX(null);
   };
 
+  /*
+   * Drag menggunakan mouse di desktop.
+   */
+  const handleMouseDown = (event) => {
+    setStartX(event.clientX);
+  };
+
+  const handleMouseUp = (event) => {
+    if (startX === null) return;
+
+    const distance = event.clientX - startX;
+
+    if (Math.abs(distance) > 50) {
+      if (distance < 0) {
+        nextBanner();
+      } else {
+        prevBanner();
+      }
+    }
+
+    setStartX(null);
+  };
+
+  const handleMouseLeave = () => {
+    setStartX(null);
+  };
+
   return (
-    <div
+    <section
       className="banner"
       style={{
-        backgroundImage: `url(${memory.image})`,
+        backgroundImage: `url(${currentMemory.image})`,
       }}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
     >
+      {/* =========================
+          CONTENT
+      ========================= */}
+
       <div className="banner__contents">
-        <h1 className="banner__title">{memory.title}</h1>
+        <h1 className="banner__title">{currentMemory.title}</h1>
 
         <div>
-          <button className="banner__button">ILY</button>
-          <button className="banner__button">3000</button>
+          <button
+            type="button"
+            className="banner__button"
+            onMouseDown={(event) => event.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
+          >
+            ILY
+          </button>
+
+          <button
+            type="button"
+            className="banner__button"
+            onMouseDown={(event) => event.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
+          >
+            3000
+          </button>
         </div>
 
         <div className="banner__meta">
-          <strong>{memory.category}</strong>
-          <span>•</span>
-          <span>{memory.date}</span>
+          <strong>{currentMemory.category}</strong>
+
+          <span></span>
+
+          <span>{currentMemory.date}</span>
         </div>
+
+        <div className="banner__description">{currentMemory.overview}</div>
       </div>
 
-      <button
-        type="button"
-        className="banner__arrow banner__arrow--left"
-        onPointerDown={(event) => event.stopPropagation()}
-        onClick={prevSlide}
-      >
-        ‹
-      </button>
+      {/* =========================
+          NAVIGATION
+      ========================= */}
 
-      <button
-        type="button"
-        className="banner__arrow banner__arrow--right"
-        onPointerDown={(event) => event.stopPropagation()}
-        onClick={nextSlide}
-      >
-        ›
-      </button>
-
-      <div className="banner__dots">
-        {memories.map((item, index) => (
+      {bannerMemories.length > 1 && (
+        <>
           <button
-            key={item.id}
             type="button"
-            className={index === currentIndex ? "active" : ""}
-            onPointerDown={(event) => event.stopPropagation()}
-            onClick={() => setCurrentIndex(index)}
-            aria-label={`Banner ${index + 1}`}
-          />
-        ))}
-      </div>
+            className="banner__arrow banner__arrow--left"
+            onMouseDown={(event) => event.stopPropagation()}
+            onTouchStart={(event) => event.stopPropagation()}
+            onClick={(event) => {
+              event.stopPropagation();
+              prevBanner();
+            }}
+            aria-label="Banner sebelumnya"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            className="banner__arrow banner__arrow--right"
+            onMouseDown={(event) => event.stopPropagation()}
+            onTouchStart={(event) => event.stopPropagation()}
+            onClick={(event) => {
+              event.stopPropagation();
+              nextBanner();
+            }}
+            aria-label="Banner berikutnya"
+          >
+            ›
+          </button>
+
+          {/* =========================
+              DOTS
+          ========================= */}
+
+          <div className="banner__dots">
+            {bannerMemories.map((memory, index) => (
+              <button
+                key={memory.id}
+                type="button"
+                className={index === currentIndex ? "active" : ""}
+                onMouseDown={(event) => event.stopPropagation()}
+                onTouchStart={(event) => event.stopPropagation()}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setCurrentIndex(index);
+                }}
+                aria-label={`Banner ${index + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* =========================
+          BOTTOM GRADIENT
+      ========================= */}
 
       <div className="banner__cover" />
-    </div>
+    </section>
   );
 };
 

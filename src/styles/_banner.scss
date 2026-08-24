@@ -4,6 +4,7 @@
   height: 620px;
 
   color: #fff;
+
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -11,7 +12,7 @@
   overflow: hidden;
   user-select: none;
 
-  /* supaya swipe HP tetap bisa */
+  /* Supaya swipe HP tetap bisa */
   touch-action: pan-y;
 
   &__contents {
@@ -28,7 +29,7 @@
     padding: 40px;
     padding-top: 100px;
 
-    /* gradient gelap supaya tulisan jelas */
+    /* Gradient supaya tulisan tetap jelas */
     background:
       linear-gradient(
         90deg,
@@ -106,6 +107,7 @@
     &:hover {
       background: #fff;
       color: #000;
+
       transform: translateY(-1px);
     }
   }
@@ -114,12 +116,12 @@
      TOMBOL SLIDER
      ======================================== */
 
-  .banner__arrow {
+  &__arrow {
     appearance: none;
 
     position: absolute;
-
     top: 50%;
+
     transform: translateY(-50%);
 
     z-index: 10;
@@ -136,16 +138,15 @@
 
     border: 0;
     outline: none;
+
     border-radius: 8px;
 
     background: rgba(0, 0, 0, 0.55);
-
     color: #fff;
 
     font-family: Arial, sans-serif;
     font-size: 42px;
     font-weight: 300;
-
     line-height: 1;
 
     cursor: pointer;
@@ -162,25 +163,24 @@
     }
   }
 
-  /* muncul ketika banner disentuh/mouse diarahkan */
-
+  /* Muncul saat mouse diarahkan ke banner */
   &:hover .banner__arrow {
     opacity: 1;
   }
 
-  .banner__arrow--left {
+  &__arrow--left {
     left: 20px;
   }
 
-  .banner__arrow--right {
+  &__arrow--right {
     right: 20px;
   }
 
-  .banner__arrow--left:hover {
+  &__arrow--left:hover {
     transform: translateY(-50%) scale(1.05);
   }
 
-  .banner__arrow--right:hover {
+  &__arrow--right:hover {
     transform: translateY(-50%) scale(1.05);
   }
 
@@ -188,7 +188,7 @@
      DOTS
      ======================================== */
 
-  .banner__dots {
+  &__dots {
     position: absolute;
 
     z-index: 10;
@@ -204,7 +204,7 @@
     gap: 7px;
   }
 
-  .banner__dots button {
+  &__dots button {
     appearance: none;
 
     width: 7px;
@@ -225,7 +225,7 @@
       background 0.25s ease;
   }
 
-  .banner__dots button.active {
+  &__dots button.active {
     width: 24px;
 
     border-radius: 5px;
@@ -273,7 +273,6 @@
       justify-content: flex-end;
 
       padding: 20px;
-
       padding-bottom: 70px;
 
       background: linear-gradient(
@@ -318,11 +317,11 @@
       Geser langsung dengan jari.
     */
 
-    .banner__arrow {
+    &__arrow {
       display: none;
     }
 
-    .banner__dots {
+    &__dots {
       bottom: 20px;
     }
   }
