@@ -23,31 +23,18 @@ const HomePage = ({ memories, onAddMemory, onDeleteMemory }) => {
       </button>
 
       <Slider
-        title="KENANGAN TERBARU"
+        title="TERBARU"
         memories={memories}
         onDeleteMemory={onDeleteMemory}
       />
 
-      <Slider
-        title="KELUARGA"
-        category="KELUARGA"
-        memories={memories}
-        onDeleteMemory={onDeleteMemory}
-      />
+      <Slider title="DATE" category="DATE" memories={memories} />
 
-      <Slider
-        title="LIBURAN"
-        category="LIBURAN"
-        memories={memories}
-        onDeleteMemory={onDeleteMemory}
-      />
+      <Slider title="JALAN-JALAN" category="JALAN" memories={memories} />
 
-      <Slider
-        title="MOMEN SPESIAL"
-        category="FAVORIT"
-        memories={memories}
-        onDeleteMemory={onDeleteMemory}
-      />
+      <Slider title="MAM" category="MAM" memories={memories} />
+
+      <Slider title="SPECIAL" category="SPECIAL" memories={memories} />
 
       {isUploadOpen && (
         <MemoryUpload

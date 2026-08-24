@@ -115,7 +115,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
 
       <div className="memory-upload__content">
         <div className="memory-upload__header">
-          <h2>Tambah Kenangan</h2>
+          <h2>Tambah</h2>
 
           <button
             type="button"
@@ -133,8 +133,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
             ) : (
               <div>
                 <span>＋</span>
-                <strong>Pilih Foto</strong>
-                <small>Dari perangkat kamu</small>
+                <strong>Pilih Fotonya Sayangg</strong>
               </div>
             )}
 
@@ -148,7 +147,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
               type="text"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              placeholder="Contoh: Liburan ke Bali"
+              placeholder="Contoh: Mamm bareng"
             />
           </div>
 
@@ -159,10 +158,10 @@ const MemoryUpload = ({ onClose, onSave }) => {
               value={category}
               onChange={(event) => setCategory(event.target.value)}
             >
-              <option value="KELUARGA">Keluarga</option>
-              <option value="LIBURAN">Liburan</option>
-              <option value="TEMAN">Teman</option>
-              <option value="FAVORIT">Favorit</option>
+              <option value="DATE">Date</option>
+              <option value="JALAN">Jalan-Jalan</option>
+              <option value="MAM">Mam</option>
+              <option value="SPECIAL">Special</option>
             </select>
           </div>
 
