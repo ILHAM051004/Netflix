@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { supabase } from "../utils/supabase";
 
 const MemoryUpload = ({ onClose, onSave }) => {
   const [image, setImage] = useState(null);
@@ -8,7 +9,9 @@ const MemoryUpload = ({ onClose, onSave }) => {
   const [category, setCategory] = useState("KELUARGA");
   const [date, setDate] = useState("");
   const [overview, setOverview] = useState("");
+
   const [error, setError] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -19,17 +22,11 @@ const MemoryUpload = ({ onClose, onSave }) => {
 
     setError("");
 
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      setImage(reader.result);
-      setPreview(reader.result);
-    };
-
-    reader.readAsDataURL(file);
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     setError("");
@@ -44,18 +41,72 @@ const MemoryUpload = ({ onClose, onSave }) => {
       return;
     }
 
-    const newMemory = {
-      id: Date.now(),
-      title: title.trim(),
-      original_name: title.trim(),
-      overview: overview.trim() || "Kenangan yang ingin selalu diingat.",
-      category,
-      date,
-      image,
-    };
+    try {
+      setIsSaving(true);
 
-    onSave(newMemory);
-    onClose();
+      const fileExt = image.name.split(".").pop();
+
+      const fileName = `${Date.now()}-${Math.random()
+        .toString(36)
+        .substring(2)}.${fileExt}`;
+
+      const filePath = fileName;
+
+      const { error: uploadError } = await supabase.storage
+        .from("memories")
+        .upload(filePath, image, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("memories")
+        .getPublicUrl(filePath);
+
+      const imageUrl = publicUrlData.publicUrl;
+
+      const { data, error: insertError } = await supabase
+        .from("memories")
+        .insert([
+          {
+            title: title.trim(),
+            category,
+            date: date || null,
+            overview: overview.trim() || "Kenangan yang ingin selalu diingat.",
+            image_url: imageUrl,
+          },
+        ])
+        .select()
+        .single();
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      const newMemory = {
+        id: data.id,
+        title: data.title,
+        original_name: data.title,
+        overview: data.overview,
+        category: data.category,
+        date: data.date,
+        image: data.image_url,
+      };
+
+      onSave(newMemory);
+
+      onClose();
+    } catch (error) {
+      console.error("Gagal menyimpan kenangan:", error);
+
+      setError("Gagal menyimpan kenangan. Periksa koneksi Supabase.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -138,8 +189,12 @@ const MemoryUpload = ({ onClose, onSave }) => {
 
           {error && <div className="memory-upload__error">{error}</div>}
 
-          <button type="submit" className="memory-upload__submit">
-            SIMPAN KENANGAN
+          <button
+            type="submit"
+            className="memory-upload__submit"
+            disabled={isSaving}
+          >
+            {isSaving ? "MENYIMPAN..." : "SIMPAN KENANGAN"}
           </button>
         </form>
       </div>
