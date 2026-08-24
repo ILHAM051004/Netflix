@@ -28,13 +28,33 @@ const HomePage = ({ memories, onAddMemory, onDeleteMemory }) => {
         onDeleteMemory={onDeleteMemory}
       />
 
-      <Slider title="DATE" category="DATE" memories={memories} />
+      <Slider
+        title="DATE"
+        category="DATE"
+        memories={memories}
+        onDeleteMemory={onDeleteMemory}
+      />
 
-      <Slider title="JALAN-JALAN" category="JALAN" memories={memories} />
+      <Slider
+        title="JALAN-JALAN"
+        category="JALAN"
+        memories={memories}
+        onDeleteMemory={onDeleteMemory}
+      />
 
-      <Slider title="MAKAN" category="MAKAN" memories={memories} />
+      <Slider
+        title="MAM"
+        category="MAM"
+        memories={memories}
+        onDeleteMemory={onDeleteMemory}
+      />
 
-      <Slider title="SPECIAL" category="SPECIAL" memories={memories} />
+      <Slider
+        title="SPECIAL"
+        category="SPECIAL"
+        memories={memories}
+        onDeleteMemory={onDeleteMemory}
+      />
 
       {isUploadOpen && (
         <MemoryUpload
