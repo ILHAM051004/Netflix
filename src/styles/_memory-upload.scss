@@ -1,0 +1,241 @@
+.memory-upload {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  padding: 0;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.memory-upload__overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.memory-upload__content {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  max-height: 92vh;
+
+  overflow-y: auto;
+
+  background: #141414;
+
+  border-radius: 22px 22px 0 0;
+
+  padding: 22px 18px 30px;
+
+  box-sizing: border-box;
+
+  color: #fff;
+}
+
+.memory-upload__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.memory-upload__header h2 {
+  margin: 0;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.memory-upload__close {
+  width: 38px;
+  height: 38px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #2a2a2a;
+
+  color: #fff;
+
+  font-size: 26px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.memory-upload__photo {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 190px;
+
+  margin-bottom: 20px;
+
+  overflow: hidden;
+
+  border: 2px dashed #555;
+  border-radius: 14px;
+
+  background: #202020;
+
+  cursor: pointer;
+}
+
+.memory-upload__photo > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #aaa;
+}
+
+.memory-upload__photo span {
+  font-size: 42px;
+  line-height: 1;
+
+  color: #e50914;
+}
+
+.memory-upload__photo strong {
+  color: #fff;
+
+  font-size: 17px;
+}
+
+.memory-upload__photo small {
+  font-size: 13px;
+}
+
+.memory-upload__photo input {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+
+  cursor: pointer;
+}
+
+.memory-upload__photo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.memory-upload__field {
+  margin-bottom: 16px;
+}
+
+.memory-upload__field label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #ddd;
+}
+
+.memory-upload__field input,
+.memory-upload__field select,
+.memory-upload__field textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid #444;
+  border-radius: 8px;
+
+  outline: none;
+
+  background: #222;
+  color: #fff;
+
+  font-size: 15px;
+}
+
+.memory-upload__field input:focus,
+.memory-upload__field select:focus,
+.memory-upload__field textarea:focus {
+  border-color: #e50914;
+}
+
+.memory-upload__field textarea {
+  resize: vertical;
+
+  min-height: 100px;
+
+  font-family: inherit;
+}
+
+.memory-upload__submit {
+  width: 100%;
+
+  margin-top: 6px;
+
+  padding: 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #e50914;
+
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.memory-upload__submit:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 700px) {
+  .memory-upload {
+    align-items: center;
+
+    padding: 20px;
+  }
+
+  .memory-upload__content {
+    width: min(520px, 100%);
+
+    max-height: 90vh;
+
+    border-radius: 16px;
+
+    padding: 26px;
+  }
+}
+
+.memory-upload__error {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: rgba(229, 9, 20, 0.12);
+  color: #ff5c67;
+  font-size: 14px;
+}

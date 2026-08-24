@@ -1,53 +1,51 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
+import React, { useState } from "react";
+import classNames from "classnames";
 
+import MemoryDetail from "./MemoryDetail";
 
-import { generateImageUrl, ImageSizes } from "../utils/tmdb";
-import TrailerModal from './TrailerModal';
+const Cards = ({ media, isLarge, onDeleteMemory }) => {
+  const [isDetailOpen, setDetailOpen] = useState(false);
 
+  const handleDelete = (event) => {
+    event.stopPropagation();
 
-const Cards = ({ media, mediaType, isLarge }) => {
+    if (onDeleteMemory) {
+      onDeleteMemory(media.id);
+    }
+  };
 
-    const [ isTrailerOpen, setTrailerOpen ] = useState(false);
+  return (
+    <>
+      <div className="media-card" onClick={() => setDetailOpen(true)}>
+        <img
+          className={classNames("media-card__poster", {
+            "media-card__poster--large": isLarge,
+          })}
+          src={media.image}
+          alt={media.title}
+        />
 
-    return (
-        <>
-            <div
-                key={media.id}
-                className="media-card"
-                onClick={() => setTrailerOpen(true)}
-            >
-                <img
-                className={classNames(
-                    'media-card__poster',
-                    { 'media-card__poster--large': isLarge },
-                )}
-                src={
-                    isLarge
-                    ? generateImageUrl(media.poster_path, ImageSizes.poster)
-                    : generateImageUrl(media.backdrop_path, ImageSizes.card)
-                }
-                alt={media.original_title}
-                />
-                <div className="media-card__cover">
-                    <div className="media-card__name">
-                        {media.title || media.name || media.original_name}
-                    </div>
-                    <div className="media-card__description">
-                        {media.overview}
-                    </div>
-                </div>
-            </div>
-            {isTrailerOpen && (
-                <TrailerModal
-                    mediaType={mediaType}
-                    mediaId={media.id}
-                    media={media}
-                    onClose={() => setTrailerOpen(false)}
-                />
-            )}
-        </>
-    );
-}
+        <div className="media-card__cover">
+          <div className="media-card__name">{media.title}</div>
+
+          <div className="media-card__description">{media.overview}</div>
+
+          <button
+            type="button"
+            className="media-card__delete"
+            onClick={handleDelete}
+            aria-label={`Hapus ${media.title}`}
+          >
+            🗑
+          </button>
+        </div>
+      </div>
+
+      {isDetailOpen && (
+        <MemoryDetail memory={media} onClose={() => setDetailOpen(false)} />
+      )}
+    </>
+  );
+};
 
 export default Cards;

@@ -1,40 +1,62 @@
-import React from 'react';
+import React, { useState } from "react";
 
-import Header from '../components/Header';
-import Banner from '../components/Banner';
-import Slider from '../components/Slider';
+import Header from "../components/Header";
+import Banner from "../components/Banner";
+import Slider from "../components/Slider";
+import MemoryUpload from "../components/MemoryUpload";
 
-const HomePage = () => {
-    return (
-        <div>
-            <Header/>
-            <Banner/>
-            <Slider
-                mediaType="tv"
-                title="NETFLIX ORIGINALS"
-                path="/discover/tv"
-                params={{ with_networks: 213 }}
-                isLarge
-            />
-            <Slider
-                title="TRENDING NOW"
-                path="/trending/all/week"
-            />
-            <Slider
-                mediaType="movie"
-                title="TOP RATED"
-                path="/movie/top_rated"
-            />
-            <Slider
-                mediaType="movie"
-                title="ACTION MOVIES"
-                path="/discover/movie"
-                params={{ with_genres: 28 }}
-            />
+const HomePage = ({ memories, onAddMemory, onDeleteMemory }) => {
+  const [isUploadOpen, setUploadOpen] = useState(false);
 
+  return (
+    <div>
+      <Header />
 
-        </div>
-    );
-}
+      <Banner memories={memories} />
+
+      <button
+        type="button"
+        className="memory-add-button"
+        onClick={() => setUploadOpen(true)}
+      >
+        +
+      </button>
+
+      <Slider
+        title="KENANGAN TERBARU"
+        memories={memories}
+        onDeleteMemory={onDeleteMemory}
+      />
+
+      <Slider
+        title="KELUARGA"
+        category="KELUARGA"
+        memories={memories}
+        onDeleteMemory={onDeleteMemory}
+      />
+
+      <Slider
+        title="LIBURAN"
+        category="LIBURAN"
+        memories={memories}
+        onDeleteMemory={onDeleteMemory}
+      />
+
+      <Slider
+        title="MOMEN SPESIAL"
+        category="FAVORIT"
+        memories={memories}
+        onDeleteMemory={onDeleteMemory}
+      />
+
+      {isUploadOpen && (
+        <MemoryUpload
+          onClose={() => setUploadOpen(false)}
+          onSave={onAddMemory}
+        />
+      )}
+    </div>
+  );
+};
 
 export default HomePage;

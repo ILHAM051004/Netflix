@@ -1,0 +1,164 @@
+.memory-detail {
+  position: fixed;
+  inset: 0;
+
+  z-index: 2000;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: 16px;
+
+  overflow-y: auto;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.memory-detail__overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 0;
+
+  background: rgba(0, 0, 0, 0.92);
+}
+
+.memory-detail__content {
+  position: relative;
+
+  z-index: 1;
+
+  width: 100%;
+  max-width: 480px;
+
+  margin: 20px 0;
+
+  background: #181818;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+.memory-detail__close {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  z-index: 5;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.72);
+
+  color: #ffffff;
+
+  font-size: 26px;
+  line-height: 1;
+
+  padding: 0;
+
+  cursor: pointer;
+}
+
+.memory-detail__image {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  max-height: 62vh;
+
+  object-fit: contain;
+
+  background: #000000;
+}
+
+.memory-detail__info {
+  padding: 18px 18px 22px;
+}
+
+.memory-detail__info h2 {
+  margin: 0 0 10px;
+
+  color: #ffffff;
+
+  font-size: 23px;
+  font-weight: 700;
+
+  line-height: 1.25;
+}
+
+.memory-detail__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-bottom: 14px;
+
+  color: #a8a8a8;
+
+  font-size: 13px;
+}
+
+.memory-detail__meta strong {
+  color: #ffffff;
+
+  font-weight: 700;
+}
+
+.memory-detail__info p {
+  margin: 0;
+
+  color: #d6d6d6;
+
+  font-size: 15px;
+
+  line-height: 1.55;
+}
+
+@media (min-width: 700px) {
+  .memory-detail {
+    align-items: center;
+
+    padding: 32px;
+  }
+
+  .memory-detail__content {
+    max-width: 650px;
+
+    margin: 0;
+
+    border-radius: 16px;
+  }
+
+  .memory-detail__image {
+    max-height: 65vh;
+  }
+
+  .memory-detail__info {
+    padding: 24px;
+  }
+
+  .memory-detail__info h2 {
+    font-size: 28px;
+  }
+
+  .memory-detail__info p {
+    font-size: 16px;
+  }
+}
