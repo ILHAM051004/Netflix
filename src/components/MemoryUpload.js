@@ -6,7 +6,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
   const [preview, setPreview] = useState("");
 
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("KELUARGA");
+  const [category, setCategory] = useState("DATE");
   const [date, setDate] = useState("");
   const [overview, setOverview] = useState("");
 
@@ -32,12 +32,12 @@ const MemoryUpload = ({ onClose, onSave }) => {
     setError("");
 
     if (!image) {
-      setError("Silakan pilih foto terlebih dahulu.");
+      setError("Pilih foto dulu sayang");
       return;
     }
 
     if (!title.trim()) {
-      setError("Silakan isi judul kenangan.");
+      setError("Diisi judulnya yaa");
       return;
     }
 
@@ -76,7 +76,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
             title: title.trim(),
             category,
             date: date || null,
-            overview: overview.trim() || "Kenangan yang ingin selalu diingat.",
+            overview: overview.trim(),
             image_url: imageUrl,
           },
         ])
@@ -101,9 +101,9 @@ const MemoryUpload = ({ onClose, onSave }) => {
 
       onClose();
     } catch (error) {
-      console.error("Gagal menyimpan kenangan:", error);
+      console.error("Gagal menyimpan", error);
 
-      setError("Gagal menyimpan kenangan. Periksa koneksi Supabase.");
+      setError("Gagal menyimpan. Periksa koneksi Supabase.");
     } finally {
       setIsSaving(false);
     }
@@ -133,7 +133,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
             ) : (
               <div>
                 <span>＋</span>
-                <strong>Pilih Fotonya Sayangg</strong>
+                <strong>Pilih Foto</strong>
               </div>
             )}
 
@@ -147,7 +147,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
               type="text"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              placeholder="Contoh: Mamm bareng"
+              placeholder="Contoh: Museum Date"
             />
           </div>
 
@@ -160,7 +160,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
             >
               <option value="DATE">Date</option>
               <option value="JALAN">Jalan-Jalan</option>
-              <option value="MAM">Mam</option>
+              <option value="MAKAN">Mam</option>
               <option value="SPECIAL">Special</option>
             </select>
           </div>
@@ -181,7 +181,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
             <textarea
               value={overview}
               onChange={(event) => setOverview(event.target.value)}
-              placeholder="Ceritakan sedikit tentang kenangan ini..."
+              placeholder="Cerita dikit disini yaa..."
               rows="4"
             />
           </div>
@@ -193,7 +193,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
             className="memory-upload__submit"
             disabled={isSaving}
           >
-            {isSaving ? "MENYIMPAN..." : "SIMPAN KENANGAN"}
+            {isSaving ? "Menyimpan..." : "Simpan"}
           </button>
         </form>
       </div>

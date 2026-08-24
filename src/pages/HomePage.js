@@ -32,7 +32,7 @@ const HomePage = ({ memories, onAddMemory, onDeleteMemory }) => {
 
       <Slider title="JALAN-JALAN" category="JALAN" memories={memories} />
 
-      <Slider title="MAM" category="MAM" memories={memories} />
+      <Slider title="MAKAN" category="MAKAN" memories={memories} />
 
       <Slider title="SPECIAL" category="SPECIAL" memories={memories} />
 
