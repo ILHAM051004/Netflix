@@ -5,20 +5,7 @@ const Banner = ({ memories = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [startX, setStartX] = useState(null);
 
-  /*
-   * Cek ukuran asli setiap foto.
-   *
-   * Portrait:
-   * height > width
-   *
-   * Landscape:
-   * width > height
-   *
-   * Square:
-   * width === height
-   *
-   * Hanya portrait yang masuk banner.
-   */
+
   useEffect(() => {
     let isMounted = true;
 
@@ -64,35 +51,25 @@ const Banner = ({ memories = [] }) => {
     };
   }, [memories]);
 
-  /*
-   * Kalau jumlah banner berubah dan index
-   * sudah tidak valid, kembali ke banner pertama.
-   */
+ 
   useEffect(() => {
     if (bannerMemories.length > 0 && currentIndex >= bannerMemories.length) {
       setCurrentIndex(0);
     }
   }, [bannerMemories, currentIndex]);
 
-  /*
-   * Tidak ada foto portrait.
-   */
+  
   if (!bannerMemories.length) {
     return null;
   }
 
   const currentMemory = bannerMemories[currentIndex];
 
-  /*
-   * Banner berikutnya.
-   */
   const nextBanner = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % bannerMemories.length);
   };
 
-  /*
-   * Banner sebelumnya.
-   */
+ 
   const prevBanner = () => {
     setCurrentIndex(
       (prevIndex) =>
@@ -100,18 +77,13 @@ const Banner = ({ memories = [] }) => {
     );
   };
 
-  /*
-   * Mulai swipe.
-   */
+ 
   const handleTouchStart = (event) => {
     if (event.touches.length !== 1) return;
 
     setStartX(event.touches[0].clientX);
   };
 
-  /*
-   * Selesai swipe.
-   */
   const handleTouchEnd = (event) => {
     if (startX === null) return;
 
@@ -119,9 +91,6 @@ const Banner = ({ memories = [] }) => {
 
     const distance = endX - startX;
 
-    /*
-     * Minimal geser 50px agar dianggap swipe.
-     */
     if (Math.abs(distance) > 50) {
       if (distance < 0) {
         nextBanner();
@@ -133,9 +102,7 @@ const Banner = ({ memories = [] }) => {
     setStartX(null);
   };
 
-  /*
-   * Drag menggunakan mouse di desktop.
-   */
+ 
   const handleMouseDown = (event) => {
     setStartX(event.clientX);
   };

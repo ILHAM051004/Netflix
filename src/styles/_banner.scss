@@ -41,13 +41,13 @@
   }
 
   &__title {
-    margin: 0 0 20px;
+    margin: 0 0 16px;
 
-    font-size: 4rem;
-    line-height: 1.05;
+    font-size: 2.2rem;
+    line-height: 1.1;
     font-weight: 800;
 
-    max-width: 650px;
+    max-width: 450px;
   }
 
   &__description {
@@ -284,11 +284,9 @@
     }
 
     &__title {
-      font-size: 2.4rem;
-
-      max-width: 320px;
-
-      margin-bottom: 15px;
+      font-size: 1.7rem;
+      max-width: 250px;
+      margin-bottom: 12px;
     }
 
     &__description {
@@ -336,7 +334,7 @@
     height: 560px;
 
     &__title {
-      font-size: 3.2rem;
+      font-size: 2rem;
     }
 
     &__contents {
