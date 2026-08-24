@@ -43,8 +43,8 @@ const HomePage = ({ memories, onAddMemory, onDeleteMemory }) => {
       />
 
       <Slider
-        title="MAM"
-        category="MAM"
+        title="MAKAN"
+        category="MAKAN"
         memories={memories}
         onDeleteMemory={onDeleteMemory}
       />

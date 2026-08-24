@@ -160,7 +160,7 @@ const MemoryUpload = ({ onClose, onSave }) => {
             >
               <option value="DATE">Date</option>
               <option value="JALAN">Jalan-Jalan</option>
-              <option value="MAKAN">Mam</option>
+              <option value="MAKAN">Makan</option>
               <option value="SPECIAL">Special</option>
             </select>
           </div>
